@@ -43,6 +43,9 @@ This are the properties you can configure and what are the default values:
 * `checkpoint_interval_seconds`: How many seconds between worker checkpoints to DynamoDB. A low value ussually means lower message replay in case of node failure/restart but it increases CPU+network ussage (which increases the AWS costs).
     * **required**: false
     * **default value**: `60`
+* `parent_shard_poll_interval`: (In millies) Wait for this long between polls to check if parent shards are done
+    * **required**: false
+    * **default value**: `10000` 
 * `metrics`: Worker metric tracking. By default this is disabled, set it to "cloudwatch" to enable the cloudwatch integration in the Kinesis Client Library.
     * **required**: false
     * **default value**: `nil`

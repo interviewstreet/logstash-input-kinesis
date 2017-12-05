@@ -12,7 +12,8 @@ RSpec.describe "inputs/kinesis" do
     "metrics" => metrics,
     "checkpoint_interval_seconds" => 120,
     "region" => "ap-southeast-1",
-    "profile" => nil
+    "profile" => nil,
+    "parent_shard_poll_interval" => 1000
   }}
 
   # Config hash to test credentials provider to be used if profile is specified
@@ -55,6 +56,7 @@ RSpec.describe "inputs/kinesis" do
     expect(kinesis.kcl_config.applicationName).to eq("my-processor")
     expect(kinesis.kcl_config.streamName).to eq("run-specs")
     expect(kinesis.kcl_config.regionName).to eq("ap-southeast-1")
+    expect(kinesis.kcl_config.parentShardPollIntervalMillis).to eq(1000)
     expect(kinesis.kcl_config.initialPositionInStream).to eq(KCL::InitialPositionInStream::TRIM_HORIZON)
     expect(kinesis.kcl_config.get_kinesis_credentials_provider.getClass.to_s).to eq("com.amazonaws.auth.DefaultAWSCredentialsProviderChain")
   end

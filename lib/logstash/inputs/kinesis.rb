@@ -56,6 +56,9 @@ class LogStash::Inputs::Kinesis < LogStash::Inputs::Base
   # Select initial_position_in_stream. Accepts TRIM_HORIZON or LATEST
   config :initial_position_in_stream, :validate => ["TRIM_HORIZON", "LATEST"], :default => "TRIM_HORIZON"
 
+  # Wait for this long between poll interval, in millis
+  config :parent_shard_poll_interval, :validate => :number, :default => 10000
+
   def initialize(params = {})
     super(params)
   end
@@ -90,7 +93,8 @@ class LogStash::Inputs::Kinesis < LogStash::Inputs::Base
       creds,
       worker_id).
         withInitialPositionInStream(initial_position_in_stream).
-        withRegionName(@region)
+        withRegionName(@region).
+        withParentShardPollIntervalMillis(@parent_shard_poll_interval)
   end
 
   def run(output_queue)
